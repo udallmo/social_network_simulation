@@ -1,5 +1,5 @@
 -- insert users
-insert Users values(1, 'umo@uwaterloo.ca', 'udall', NULL, 'mo', "01-01-1998", 22, 'student', 'pass123', 1582517861);
+insert Users values(1, 'umo@uwaterloo.ca', 'udall', NULL, 'mo', "01-01-1998", 22, 'student', 'pass123', 1);
 insert Users values(2, 'ece356@uwaterloo.ca', 'derek', NULL, 'ray', "04-22-1999", 21, '', 'test', 1582512121);
 insert Users values(3, 'mj@uwaterloo.ca', 'mary', NULL, 'jane', "12-01-1996", 24, "nurse",'ma21234', 1582517861);
 insert Users values(4, 'drag24@uwaterloo.ca', 'draven', 'david', 'ragious', "02-01-1998", 22, 'manager', 'ddd123', 1582515820);

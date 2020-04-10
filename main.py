@@ -531,13 +531,13 @@ def loginFeed(profile):
         friendID = replaceCursors(str(friend)).replace(",", "")
         cursor.execute(f"select * from Posts where userID={friendID} and timeStamp>{profile.lastLogin}")
         for post in cursor:
-            posts.append(post)
+            print(post)
 
     for topic in topics:
         topicID = replaceCursors(str(topic)).replace(",", "")
         cursor.execute(f"select * from Posts where topicID={topicID} and timeStamp>{profile.lastLogin}")
         for topic in cursor:
-            posts.append(topic)
+            print(post)
 
 def getProfile(user, password):
     """Gets the user profile"""
