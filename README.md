@@ -33,9 +33,6 @@ After installing should be able to run using:
 python3 main.py
 ```
 
-Should see the following:
-
-
 ## Authors
 
 * **Udall Mo** - *Initial work*
