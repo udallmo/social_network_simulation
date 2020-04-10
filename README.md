@@ -27,7 +27,7 @@ install mysql-connector-python
 pip3 install mysql-connector-python
 ```
 
-After installing should be able to run and going into the directory:
+After installing should be able to run using:
 
 ```
 python3 main.py
