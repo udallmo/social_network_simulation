@@ -27,7 +27,12 @@ install mysql-connector-python
 pip3 install mysql-connector-python
 ```
 
-After installing should be able to run using:
+To population the database run the following commands in a MySQL instance:
+```
+source database.sql
+source popdb.sql
+```
+After installing and populating the database you should be able to run using:
 
 ```
 python3 main.py
