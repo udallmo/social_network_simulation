@@ -10,5 +10,5 @@ class Person:
         self.birthdate = bd
         self.age = age
         self.job = job
-        self.fullName = firstName + (middleName if middleName!="None" else ' ') + lastName
+        self.fullName = firstName + " " + lastName
         self.lastLogin = lastLogin

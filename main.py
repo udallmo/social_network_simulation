@@ -31,12 +31,11 @@ def run(profile):
 
     print(f"WELCOME {profile.fullName.upper()}")
     loginFeed(profile)
-    instructions()
 
     logout = False
 
     while (True):
-        print("----------------------------")
+        instructions()
         state = input("ENTER A COMMAND: ").lower()
         os.system('clear')
 
@@ -56,7 +55,8 @@ def run(profile):
             manageFriends(profile)
         else:
             print("NOT VALID TAB!")
-            instructions()
+
+        os.system('clear')
 
 def manageTopics(profile):    
     """Manage topic tabs 
@@ -135,7 +135,7 @@ def manageTopics(profile):
                 print("TOPIC ALREADY EXISTS")           
 
         elif t_state == "remove":
-            t_remove = input("ENTER TOPIC TO REMOVE").lower().replace(" ", "_")
+            t_remove = input("ENTER TOPIC TO REMOVE: ").lower().replace(" ", "_")
             
             cursor.execute(f"select topicID from userTopic join Topics using(topicID) where userID={profile.id} and topic='{t_remove}';")
             topicID = cursor.fetchone()
@@ -156,6 +156,7 @@ def manageTopics(profile):
                 db.commit()
 
         elif t_state == "exit":
+            os.system('clear')
             return
         else:
             print("COMMAND NOT FOUND!")
@@ -178,7 +179,7 @@ def manageFriends(profile):
             cursor.execute(f"select firstName, middleName, LastName from userFriends f join Users u on userFOL=u.userID where f.userID={profile.id}")
 
             for friend in cursor:
-                name = replaceCursors(str(friend)).split(',')
+                name = replaceCursors(str(friend)).replace(' ', '').split(',')
                 middleName = f" {name[1]} " if name[1].lower() != 'none' else ' '
                 print(f"{name[0]}{middleName}{name[2]}")
 
@@ -188,7 +189,7 @@ def manageFriends(profile):
                 if tv_state == 'all':
                     cursor.execute("select firstName, MiddleName, LastName from Users")
                     for user in cursor:
-                        name = replaceCursors(str(user)).split(',')
+                        name = replaceCursors(str(user)).replace(' ', '').split(',')
                         middleName = f" {name[1]} " if name[1].lower() != 'none' else ' '
                         print(f"{name[0]}{middleName}{name[2]}")
                 elif tv_state == 'exit':
@@ -242,9 +243,9 @@ def manageFriends(profile):
             name = f_remove.split(" ")
 
             if len(name)> 2:
-                cursor.execute(f"select userFOL from userFriends join Users on userFOL = userID where userID={profile.id} and firstName='{name[0]}' and lastName='{name[len(name) - 1]}' and middleName='{name[1]}'")
+                cursor.execute(f"select userFOL from userFriends f join Users u on userFOL =u.userID where f.userID={profile.id} and firstName='{name[0]}' and lastName='{name[len(name) - 1]}' and middleName='{name[1]}'")
             else:
-                cursor.execute(f"select userFOL from userFriends join Users on userFOL = userID where userID={profile.id} and firstName='{name[0]}' and lastName='{name[len(name) - 1]}'")
+                cursor.execute(f"select userFOL from userFriends f join Users u on userFOL =u.userID where f.userID={profile.id} and firstName='{name[0]}' and lastName='{name[len(name) - 1]}'")
             
             userID = cursor.fetchone()
 
@@ -360,6 +361,7 @@ def manageClubs(profile):
                 cursor.execute(f"delete from userClub where userID={profile.id} and clubID={clubID}")
                 db.commit()
         elif c_state == "exit":
+            os.system('clear')
             return
         else:
             print("COMMAND NOT FOUND!")
@@ -493,13 +495,14 @@ def createPost(profile, topicID, postID=0):
         image = input("ENTER IMAGE OR STOP: ").lower()
         if image == "stop" or image.strip() == '':
             break
-        cursor.execute(f"insert into postImages(postID, postImage) values({postID}, {image})")
+        cursor.execute(f"insert into postImages(postID, postImage) values({postID}, '{image}')")
     
     while(True):
         link = input("ENTER LINK OR STOP: ").lower()
         if link == "stop" or link.strip() == '':
             break
-        cursor.execute(f"insert into postLinks(postID, postLink) values({profile.id}, {link})")
+        print(link)
+        cursor.execute(f"insert into postLinks(postID, postLink) values({postID}, '{link}')")
     
     db.commit()
 
@@ -539,8 +542,8 @@ def loginFeed(profile):
 def getProfile(user, password):
     """Gets the user profile"""
     users = []
-    cursor.execute(f"SELECT * FROM Users where email='{user}' and password='{password}'")
-    
+    cursor.execute(f"SELECT userID, email, firstName, middleName, lastName, birthdate, age, occupation, timeStamp FROM Users where email='{user}' and password='{password}'")
+
     for result in cursor:
         users.append(result)
     
@@ -556,7 +559,7 @@ def replaceCursors(text):
     return text.replace('(', '').replace(')', '').replace("'", "").replace(" ", "")
 
 def convertObject(cursorObject):
-    """HELPTER FUNCTION: creates a person object""""
+    """HELPER FUNCTION: creates a person object"""
     sections = replaceCursors(str(cursorObject)).split(",")
 
     user = Person(
