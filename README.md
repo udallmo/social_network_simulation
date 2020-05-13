@@ -1,6 +1,6 @@
-# ECE 356 Project: Social Network
+Social Network
 
-CLI social network for ECE 356 Databases Course. Commands are enter in the CLI to execute functionality to a similar to social network
+CLI social network. Commands are enter in the CLI to execute functionality to a similar to social network
 
 ### Prerequisites
 
